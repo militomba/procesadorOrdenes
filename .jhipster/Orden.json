@@ -1,0 +1,44 @@
+{
+  "changelogDate": "20231114233802",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "operacion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fechaOperacion",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "modo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "precio",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "accionId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cantidad",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cliente",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "accion",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "Orden",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
