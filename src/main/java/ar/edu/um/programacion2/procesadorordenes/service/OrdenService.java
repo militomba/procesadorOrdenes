@@ -83,6 +83,12 @@ public class OrdenService {
                 if (orden.getAccion() != null) {
                     existingOrden.setAccion(orden.getAccion());
                 }
+                if (orden.getOperacionExitosa() != null) {
+                    existingOrden.setOperacionExitosa(orden.getOperacionExitosa());
+                }
+                if (orden.getOperacionObservacion() != null) {
+                    existingOrden.setOperacionObservacion(orden.getOperacionObservacion());
+                }
 
                 return existingOrden;
             })

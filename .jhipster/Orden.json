@@ -33,6 +33,14 @@
     {
       "fieldName": "accion",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "operacionExitosa",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "operacionObservacion",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": false,

@@ -66,6 +66,9 @@ public class ObtenerOrdenes {
             JsonNode ordenes = jsonArray.get("ordenes");
             for (JsonNode resultadoOrden : ordenes) {
                 Orden nuevaOrden = ordenMapper.treeToValue(resultadoOrden, Orden.class);
+                nuevaOrden.operacionExitosa(false);
+                nuevaOrden.operacionObservacion("");
+                log.info("-----RESULTADO ORDENES------" + resultadoOrden);
                 this.ordenesFinal.add(nuevaOrden);
             }
             log.debug("ORDENES: " + this.ordenesFinal.toString());

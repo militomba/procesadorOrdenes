@@ -10,6 +10,10 @@ export interface IOrden {
   cantidad?: number | null;
   cliente?: number | null;
   accion?: string | null;
+  operacionExitosa?: boolean | null;
+  operacionObservacion?: string | null;
 }
 
-export const defaultValue: Readonly<IOrden> = {};
+export const defaultValue: Readonly<IOrden> = {
+  operacionExitosa: false,
+};

@@ -25,7 +25,9 @@
       "accionId": "Accion Id",
       "cantidad": "Cantidad",
       "cliente": "Cliente",
-      "accion": "Accion"
+      "accion": "Accion",
+      "operacionExitosa": "Operacion Exitosa",
+      "operacionObservacion": "Operacion Observacion"
     }
   }
 }

@@ -82,6 +82,18 @@ export const OrdenDetail = () => {
             </span>
           </dt>
           <dd>{ordenEntity.accion}</dd>
+          <dt>
+            <span id="operacionExitosa">
+              <Translate contentKey="procesadorOrdenesApp.orden.operacionExitosa">Operacion Exitosa</Translate>
+            </span>
+          </dt>
+          <dd>{ordenEntity.operacionExitosa ? 'true' : 'false'}</dd>
+          <dt>
+            <span id="operacionObservacion">
+              <Translate contentKey="procesadorOrdenesApp.orden.operacionObservacion">Operacion Observacion</Translate>
+            </span>
+          </dt>
+          <dd>{ordenEntity.operacionObservacion}</dd>
         </dl>
         <Button tag={Link} to="/orden" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

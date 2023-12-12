@@ -143,6 +143,21 @@ export const OrdenUpdate = () => {
                 data-cy="accion"
                 type="text"
               />
+              <ValidatedField
+                label={translate('procesadorOrdenesApp.orden.operacionExitosa')}
+                id="orden-operacionExitosa"
+                name="operacionExitosa"
+                data-cy="operacionExitosa"
+                check
+                type="checkbox"
+              />
+              <ValidatedField
+                label={translate('procesadorOrdenesApp.orden.operacionObservacion')}
+                id="orden-operacionObservacion"
+                name="operacionObservacion"
+                data-cy="operacionObservacion"
+                type="text"
+              />
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/orden" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

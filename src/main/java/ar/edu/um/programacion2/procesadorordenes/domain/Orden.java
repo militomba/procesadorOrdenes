@@ -47,6 +47,12 @@ public class Orden implements Serializable {
     @Column(name = "accion")
     private String accion;
 
+    @Column(name = "operacion_exitosa")
+    private Boolean operacionExitosa;
+
+    @Column(name = "operacion_observacion")
+    private String operacionObservacion;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -166,8 +172,30 @@ public class Orden implements Serializable {
         this.accion = accion;
     }
 
-    public Boolean checkIfIsInmediato() {
-        return this.getModo().equals("AHORA");
+    public Boolean getOperacionExitosa() {
+        return this.operacionExitosa;
+    }
+
+    public Orden operacionExitosa(Boolean operacionExitosa) {
+        this.setOperacionExitosa(operacionExitosa);
+        return this;
+    }
+
+    public void setOperacionExitosa(Boolean operacionExitosa) {
+        this.operacionExitosa = operacionExitosa;
+    }
+
+    public String getOperacionObservacion() {
+        return this.operacionObservacion;
+    }
+
+    public Orden operacionObservacion(String operacionObservacion) {
+        this.setOperacionObservacion(operacionObservacion);
+        return this;
+    }
+
+    public void setOperacionObservacion(String operacionObservacion) {
+        this.operacionObservacion = operacionObservacion;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -202,6 +230,8 @@ public class Orden implements Serializable {
             ", cantidad=" + getCantidad() +
             ", cliente=" + getCliente() +
             ", accion='" + getAccion() + "'" +
+            ", operacionExitosa='" + getOperacionExitosa() + "'" +
+            ", operacionObservacion='" + getOperacionObservacion() + "'" +
             "}";
     }
 }

@@ -130,6 +130,14 @@ export const Orden = () => {
                 <th className="hand" onClick={sort('accion')}>
                   <Translate contentKey="procesadorOrdenesApp.orden.accion">Accion</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th className="hand" onClick={sort('operacionExitosa')}>
+                  <Translate contentKey="procesadorOrdenesApp.orden.operacionExitosa">Operacion Exitosa</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('operacionObservacion')}>
+                  <Translate contentKey="procesadorOrdenesApp.orden.operacionObservacion">Operacion Observacion</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -149,6 +157,8 @@ export const Orden = () => {
                   <td>{orden.cantidad}</td>
                   <td>{orden.cliente}</td>
                   <td>{orden.accion}</td>
+                  <td>{orden.operacionExitosa ? 'true' : 'false'}</td>
+                  <td>{orden.operacionObservacion}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/orden/${orden.id}`} color="info" size="sm" data-cy="entityDetailsButton">

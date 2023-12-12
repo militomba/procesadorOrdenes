@@ -58,6 +58,12 @@ class OrdenResourceIT {
     private static final String DEFAULT_ACCION = "AAAAAAAAAA";
     private static final String UPDATED_ACCION = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_OPERACION_EXITOSA = false;
+    private static final Boolean UPDATED_OPERACION_EXITOSA = true;
+
+    private static final String DEFAULT_OPERACION_OBSERVACION = "AAAAAAAAAA";
+    private static final String UPDATED_OPERACION_OBSERVACION = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/ordens";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -90,7 +96,9 @@ class OrdenResourceIT {
             .accionId(DEFAULT_ACCION_ID)
             .cantidad(DEFAULT_CANTIDAD)
             .cliente(DEFAULT_CLIENTE)
-            .accion(DEFAULT_ACCION);
+            .accion(DEFAULT_ACCION)
+            .operacionExitosa(DEFAULT_OPERACION_EXITOSA)
+            .operacionObservacion(DEFAULT_OPERACION_OBSERVACION);
         return orden;
     }
 
@@ -109,7 +117,9 @@ class OrdenResourceIT {
             .accionId(UPDATED_ACCION_ID)
             .cantidad(UPDATED_CANTIDAD)
             .cliente(UPDATED_CLIENTE)
-            .accion(UPDATED_ACCION);
+            .accion(UPDATED_ACCION)
+            .operacionExitosa(UPDATED_OPERACION_EXITOSA)
+            .operacionObservacion(UPDATED_OPERACION_OBSERVACION);
         return orden;
     }
 
@@ -139,6 +149,8 @@ class OrdenResourceIT {
         assertThat(testOrden.getCantidad()).isEqualTo(DEFAULT_CANTIDAD);
         assertThat(testOrden.getCliente()).isEqualTo(DEFAULT_CLIENTE);
         assertThat(testOrden.getAccion()).isEqualTo(DEFAULT_ACCION);
+        assertThat(testOrden.getOperacionExitosa()).isEqualTo(DEFAULT_OPERACION_EXITOSA);
+        assertThat(testOrden.getOperacionObservacion()).isEqualTo(DEFAULT_OPERACION_OBSERVACION);
     }
 
     @Test
@@ -178,7 +190,9 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.[*].accionId").value(hasItem(DEFAULT_ACCION_ID)))
             .andExpect(jsonPath("$.[*].cantidad").value(hasItem(DEFAULT_CANTIDAD)))
             .andExpect(jsonPath("$.[*].cliente").value(hasItem(DEFAULT_CLIENTE)))
-            .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)));
+            .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)))
+            .andExpect(jsonPath("$.[*].operacionExitosa").value(hasItem(DEFAULT_OPERACION_EXITOSA.booleanValue())))
+            .andExpect(jsonPath("$.[*].operacionObservacion").value(hasItem(DEFAULT_OPERACION_OBSERVACION)));
     }
 
     @Test
@@ -200,7 +214,9 @@ class OrdenResourceIT {
             .andExpect(jsonPath("$.accionId").value(DEFAULT_ACCION_ID))
             .andExpect(jsonPath("$.cantidad").value(DEFAULT_CANTIDAD))
             .andExpect(jsonPath("$.cliente").value(DEFAULT_CLIENTE))
-            .andExpect(jsonPath("$.accion").value(DEFAULT_ACCION));
+            .andExpect(jsonPath("$.accion").value(DEFAULT_ACCION))
+            .andExpect(jsonPath("$.operacionExitosa").value(DEFAULT_OPERACION_EXITOSA.booleanValue()))
+            .andExpect(jsonPath("$.operacionObservacion").value(DEFAULT_OPERACION_OBSERVACION));
     }
 
     @Test
@@ -230,7 +246,9 @@ class OrdenResourceIT {
             .accionId(UPDATED_ACCION_ID)
             .cantidad(UPDATED_CANTIDAD)
             .cliente(UPDATED_CLIENTE)
-            .accion(UPDATED_ACCION);
+            .accion(UPDATED_ACCION)
+            .operacionExitosa(UPDATED_OPERACION_EXITOSA)
+            .operacionObservacion(UPDATED_OPERACION_OBSERVACION);
 
         restOrdenMockMvc
             .perform(
@@ -252,6 +270,8 @@ class OrdenResourceIT {
         assertThat(testOrden.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
         assertThat(testOrden.getCliente()).isEqualTo(UPDATED_CLIENTE);
         assertThat(testOrden.getAccion()).isEqualTo(UPDATED_ACCION);
+        assertThat(testOrden.getOperacionExitosa()).isEqualTo(UPDATED_OPERACION_EXITOSA);
+        assertThat(testOrden.getOperacionObservacion()).isEqualTo(UPDATED_OPERACION_OBSERVACION);
     }
 
     @Test
@@ -322,7 +342,12 @@ class OrdenResourceIT {
         Orden partialUpdatedOrden = new Orden();
         partialUpdatedOrden.setId(orden.getId());
 
-        partialUpdatedOrden.precio(UPDATED_PRECIO).accionId(UPDATED_ACCION_ID).cantidad(UPDATED_CANTIDAD).accion(UPDATED_ACCION);
+        partialUpdatedOrden
+            .precio(UPDATED_PRECIO)
+            .accionId(UPDATED_ACCION_ID)
+            .cantidad(UPDATED_CANTIDAD)
+            .accion(UPDATED_ACCION)
+            .operacionObservacion(UPDATED_OPERACION_OBSERVACION);
 
         restOrdenMockMvc
             .perform(
@@ -344,6 +369,8 @@ class OrdenResourceIT {
         assertThat(testOrden.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
         assertThat(testOrden.getCliente()).isEqualTo(DEFAULT_CLIENTE);
         assertThat(testOrden.getAccion()).isEqualTo(UPDATED_ACCION);
+        assertThat(testOrden.getOperacionExitosa()).isEqualTo(DEFAULT_OPERACION_EXITOSA);
+        assertThat(testOrden.getOperacionObservacion()).isEqualTo(UPDATED_OPERACION_OBSERVACION);
     }
 
     @Test
@@ -366,7 +393,9 @@ class OrdenResourceIT {
             .accionId(UPDATED_ACCION_ID)
             .cantidad(UPDATED_CANTIDAD)
             .cliente(UPDATED_CLIENTE)
-            .accion(UPDATED_ACCION);
+            .accion(UPDATED_ACCION)
+            .operacionExitosa(UPDATED_OPERACION_EXITOSA)
+            .operacionObservacion(UPDATED_OPERACION_OBSERVACION);
 
         restOrdenMockMvc
             .perform(
@@ -388,6 +417,8 @@ class OrdenResourceIT {
         assertThat(testOrden.getCantidad()).isEqualTo(UPDATED_CANTIDAD);
         assertThat(testOrden.getCliente()).isEqualTo(UPDATED_CLIENTE);
         assertThat(testOrden.getAccion()).isEqualTo(UPDATED_ACCION);
+        assertThat(testOrden.getOperacionExitosa()).isEqualTo(UPDATED_OPERACION_EXITOSA);
+        assertThat(testOrden.getOperacionObservacion()).isEqualTo(UPDATED_OPERACION_OBSERVACION);
     }
 
     @Test
