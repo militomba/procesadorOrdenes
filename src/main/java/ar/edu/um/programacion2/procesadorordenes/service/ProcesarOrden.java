@@ -9,7 +9,10 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProcesarOrden {
 
     private static final Logger log = LoggerFactory.getLogger(ProcesadorOrdenesApp.class);
@@ -127,5 +130,13 @@ public class ProcesarOrden {
         }
         log.info("COLA DE ORDENES PRINCIPIO DIA VACIA");
         return false;
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void procesarOrden() {
+        log.info("--------------------------------\nPROCESANDO ORDENES\n--------------------------------");
+        this.procesarOrdenesFinDia();
+        this.procesarOrdenesInmediatas();
+        this.procesarOrdenesPrincDia();
     }
 }

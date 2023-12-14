@@ -93,9 +93,9 @@ public class AnalizarOrdenes {
                         if (accionId == accionIdAlmacenada) {
                             log.info("Accion encontrada: " + accionId);
                             valido = true;
-                        } else {
+                        }/*else {
                             log.info("No se encontro la accion: " + accionId);
-                        }
+                        }*/
                     }
                 }
             }
@@ -127,7 +127,7 @@ public class AnalizarOrdenes {
         ObjectMapper accionMapper = new ObjectMapper();
         accionMapper.registerModule(new JavaTimeModule());
         accionMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        int n = 0;
+
         try {
             List<Orden> clientesAlmacenadas = ordenRepository.findAll();
 
@@ -137,20 +137,19 @@ public class AnalizarOrdenes {
 
             for (Orden orden : clientesAlmacenadas) {
                 Integer clienteIdAlmacenada = orden.getCliente();
-                log.debug("Analaisis de orden numero: " + n++);
 
                 if (clientes != null && clientes.isArray()) {
                     for (JsonNode cliente : clientes) {
                         int clienteId = cliente.get("id").asInt();
-                        log.debug("clienteIdAlmacenado: " + clienteIdAlmacenada);
-                        log.debug("clienteId: " + clienteId);
+                        /*log.info("clienteIdAlmacenado: " + clienteIdAlmacenada);
+                        log.info("clienteId: " + clienteId);*/
 
                         if (clienteId == clienteIdAlmacenada) {
                             log.info("cliente encontrado: " + clienteId);
                             valido = true;
-                        } else {
+                        }/*else {
                             log.info("No se encontro el cliente " + clienteId);
-                        }
+                        }*/
                     }
                 }
             }
@@ -193,12 +192,12 @@ public class AnalizarOrdenes {
 
             if (modoOrden.equals("PRINCIPIODIA") || modoOrden.equals("FINDIA")) {
                 Double precioAlmacenado = orden.getPrecio();
-                log.debug("precio viejo: " + precioAlmacenado);
+                log.info("precio viejo: " + precioAlmacenado);
                 if (ultimoValor != null) {
                     Double valor = ultimoValor.get("valor").asDouble();
                     orden.setPrecio(valor);
                     ordenRepository.save(orden);
-                    log.debug("precio nuevo: " + valor);
+                    log.info("precio nuevo: " + valor);
                 }
             }
         } catch (JsonProcessingException e) {
@@ -227,10 +226,10 @@ public class AnalizarOrdenes {
                         if (horaOperacionLocal.isAfter(horaInicio) && horaOperacionLocal.isBefore(horaFinal)) {
                             colaInmediatoService.agregarOrden(orden);
                             log.info("Orden Inmediata almacenada en la cola: " + orden.toString());
-                            //log.debug("El horario de la orden se encuentra dentro de las 9:00 am - 18:00pm");
+                            //log.info();("El horario de la orden se encuentra dentro de las 9:00 am - 18:00pm");
                         } else {
                             colaOperacionesFallidas.agregarOrden(orden);
-                            log.debug("No se alamcenp la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm");
+                            log.info("No se alamcenp la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm");
                         }
                     }
                     if (modoOrden.equals("PRINCIPIODIA")) {
@@ -308,10 +307,10 @@ public class AnalizarOrdenes {
 
     @Scheduled(fixedRate = 60000)
     public void analizandoOrdenes() {
-        log.debug("-------COMENZANDO ANALISIS DE ORDENES-----\n");
-        log.debug("\n-------ANALIZANDO LA EXISTENCIA DEL CLIENTE-----");
+        log.info("-------COMENZANDO ANALISIS DE ORDENES-----\n");
+        log.info("\n-------ANALIZANDO LA EXISTENCIA DEL CLIENTE-----");
         this.obtenerClientesServicioProfe();
-        log.debug("\n-------ANALIZANDO LA EXISTENCIA DE LA ACCION-----");
+        log.info("\n-------ANALIZANDO LA EXISTENCIA DE LA ACCION-----");
         this.obtenerAccionesServicioProfe();
         this.repartirOrdenesColas();
     }

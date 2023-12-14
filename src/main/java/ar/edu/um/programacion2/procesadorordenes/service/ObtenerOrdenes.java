@@ -71,7 +71,7 @@ public class ObtenerOrdenes {
                 log.info("-----RESULTADO ORDENES------" + resultadoOrden);
                 this.ordenesFinal.add(nuevaOrden);
             }
-            log.debug("ORDENES: " + this.ordenesFinal.toString());
+            log.info("ORDENES: " + this.ordenesFinal.toString());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -87,16 +87,16 @@ public class ObtenerOrdenes {
             boolean existeOrden = ordenRepository.existsByFechaOperacion(fechaOperacion);
             if (!existeOrden) {
                 ordenRepository.save(ordenes);
-                log.debug("Orden almacenada: " + ordenes.toString());
+                log.info("Orden almacenada: " + ordenes.toString());
             } else {
-                log.debug("Orden omitida (ya existe): " + ordenes.toString());
+                log.info("Orden omitida (ya existe): " + ordenes.toString());
             }
         }
     }
 
     @Scheduled(fixedRate = 60000)
     public void obtenerResultados() {
-        log.debug("-------Comenzando peticion------");
+        log.info("-------Comenzando peticion------");
         this.obtenerOrdenesServicioProfe();
         this.almacenarOrdenes();
     }

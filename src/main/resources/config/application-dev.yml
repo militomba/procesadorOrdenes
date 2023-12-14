@@ -15,10 +15,10 @@
 
 logging:
   level:
-    ROOT: DEBUG
-    tech.jhipster: DEBUG
-    org.hibernate.SQL: DEBUG
-    ar.edu.um.programacion2.procesadorordenes: DEBUG
+    ROOT: INFO
+    tech.jhipster: INFO
+    org.hibernate.SQL: INFO
+    ar.edu.um.programacion2.procesadorordenes: INFO
 
 eureka:
   instance:
