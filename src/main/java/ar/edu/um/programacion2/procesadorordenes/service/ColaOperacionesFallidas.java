@@ -18,4 +18,8 @@ public class ColaOperacionesFallidas {
     public void agregarOrden(Orden orden) {
         cola.offer(orden);
     }
+
+    public Queue<Orden> getCola() {
+        return cola;
+    }
 }

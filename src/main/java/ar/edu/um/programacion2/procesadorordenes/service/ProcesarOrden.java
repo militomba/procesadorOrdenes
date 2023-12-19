@@ -33,6 +33,11 @@ public class ProcesarOrden {
     @Autowired
     ColaOperacionesFallidas colaOperacionesFallidas;
 
+    @Autowired
+    ReporteOrdenes reporteOrdenes;
+
+    List<Orden> listaOrdenesExitosas = new ArrayList<>();
+
     public ProcesarOrden(OrdenRepository ordenRepository) {
         this.ordenRepository = ordenRepository;
     }
@@ -40,103 +45,137 @@ public class ProcesarOrden {
     //FUNCION DE COMPRA
     public boolean comprar(Orden orden) {
         orden.setOperacionExitosa(true);
-        orden.setOperacionObservacion("Compra realizada con exito");
+        orden.setOperacionObservaciones("Compra realizada con exito");
+        ordenRepository.save(orden);
+        log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
+
         return true;
     }
 
     //FUNCION DE VENTA
     public boolean vender(Orden orden) {
+        boolean valido = false;
         if (analizarOrdenes.consultarCantidadAcciones(orden) == true) {
             orden.setOperacionExitosa(true);
-            orden.setOperacionObservacion("Compra realizada con exito");
+            orden.setOperacionObservaciones("Compra realizada con exito");
+            log.info("VENTA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
+            ordenRepository.save(orden);
+            valido = true;
         } else {
             orden.setOperacionExitosa(false);
-            orden.setOperacionObservacion("No se puede realizar la compra");
+            orden.setOperacionObservaciones("No se puede realizar la compra");
+            ordenRepository.save(orden);
             colaOperacionesFallidas.agregarOrden(orden);
+            log.info("NO SE PUDO REALIZAR LA VENTA\n ORDEN: " + orden.toString());
         }
-        return true;
+        return valido;
     }
 
     public boolean procesarOrdenesInmediatas() {
         Queue<Orden> colaInmediata = colaInmediatoService.getCola();
-        List<Orden> ordenProcesada = new ArrayList<>();
-
+        log.info(colaInmediata.toString());
         while (!colaInmediata.isEmpty()) {
             Orden orden = colaInmediata.poll();
             if (orden.getOperacion().equals("COMPRA")) {
                 comprar(orden);
-                log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
+                listaOrdenesExitosas.add(orden);
             } else {
-                vender(orden);
-                log.info("VENTA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
-            }
-            if (!ordenProcesada.isEmpty()) {
-                //funcion de reporte al servicio del profe
+                boolean venta = vender(orden);
+                if (venta == true) {
+                    listaOrdenesExitosas.add(orden);
+                }
             }
         }
+        if (!listaOrdenesExitosas.isEmpty()) {
+            System.out.println(listaOrdenesExitosas);
+            reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
+            listaOrdenesExitosas.clear();
+        }
         log.info("COLA DE ORDENES INMEDIATAS VACIA");
-        return false;
+        return true;
     }
 
     public boolean procesarOrdenesFinDia() {
         Queue<Orden> colaFinDia = colaFinDiaService.getCola();
-        List<Orden> ordenProcesada = new ArrayList<>();
-
         while (!colaFinDia.isEmpty()) {
             Orden orden = colaFinDia.poll();
             if (orden.getOperacion().equals("COMPRA")) {
                 comprar(orden);
-                log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
+                //log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
+                listaOrdenesExitosas.add(orden);
             } else {
-                vender(orden);
-                log.info("VENTA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
-            }
-            if (!ordenProcesada.isEmpty()) {
-                //funcion de reporte al servicio del profe
+                boolean venta = vender(orden);
+                if (venta == true) {
+                    listaOrdenesExitosas.add(orden);
+                }
             }
         }
+        if (!listaOrdenesExitosas.isEmpty()) {
+            reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
+            listaOrdenesExitosas.clear();
+        }
         log.info("COLA DE ORDENES FIN DIA VACIA");
-        return false;
+        return true;
     }
 
     public boolean procesarOrdenesPrincDia() {
         Queue<Orden> colaPrincDia = colaPrincipioDiaService.getCola();
-        List<Orden> ordenProcesada = new ArrayList<>();
 
         while (!colaPrincDia.isEmpty()) {
             Orden orden = colaPrincDia.poll();
             if (orden.getOperacion().equals("COMPRA")) {
                 comprar(orden);
-                log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
+                //log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
+                listaOrdenesExitosas.add(orden);
             } else {
                 vender(orden);
-                log.info("VENTA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
-                ordenRepository.save(orden);
-                ordenProcesada.add(orden);
-            }
-            if (!ordenProcesada.isEmpty()) {
-                //funcion de reporte al servicio del profe
+                boolean venta = vender(orden);
+                if (venta == true) {
+                    listaOrdenesExitosas.add(orden);
+                }
             }
         }
+        if (!listaOrdenesExitosas.isEmpty()) {
+            reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
+            listaOrdenesExitosas.clear();
+        }
+
         log.info("COLA DE ORDENES PRINCIPIO DIA VACIA");
-        return false;
+        return true;
     }
 
-    @Scheduled(fixedRate = 60000)
+    public boolean reportarOrdenesFallidas() {
+        Queue<Orden> colaOrdenesFallidas = colaOperacionesFallidas.getCola();
+        List<Orden> listaOrdenesFallidas = new ArrayList<>();
+
+        while (!colaOrdenesFallidas.isEmpty()) {
+            Orden orden = colaOrdenesFallidas.poll();
+            listaOrdenesFallidas.add(orden);
+        }
+        reporteOrdenes.enviarOrdenes(listaOrdenesFallidas);
+        return true;
+    }
+    /*
+    public boolean eliminarID(){
+        log.info(listaOrdenesExitosas.toString());
+        if(!listaOrdenesExitosas.isEmpty()){
+            for(Orden ordenes : listaOrdenesExitosas) {
+                listaOrdenesExitosas.remove(ordenes.getId());
+            }
+            reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
+        }else{
+            log.info("No hay ordenes almacenadas");
+        }
+        log.info(listaOrdenesExitosas.toString());
+        return true;
+    }*/
+
+    /*    @Scheduled(fixedRate = 60000)
     public void procesarOrden() {
         log.info("--------------------------------\nPROCESANDO ORDENES\n--------------------------------");
         this.procesarOrdenesFinDia();
         this.procesarOrdenesInmediatas();
         this.procesarOrdenesPrincDia();
-    }
+        this.reportarOrdenesFallidas();
+    }*/
 }

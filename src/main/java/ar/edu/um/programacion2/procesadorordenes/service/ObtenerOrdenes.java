@@ -15,7 +15,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
@@ -67,11 +69,11 @@ public class ObtenerOrdenes {
             for (JsonNode resultadoOrden : ordenes) {
                 Orden nuevaOrden = ordenMapper.treeToValue(resultadoOrden, Orden.class);
                 nuevaOrden.operacionExitosa(false);
-                nuevaOrden.operacionObservacion("");
+                nuevaOrden.operacionObservaciones("");
                 log.info("-----RESULTADO ORDENES------" + resultadoOrden);
                 this.ordenesFinal.add(nuevaOrden);
             }
-            log.info("ORDENES: " + this.ordenesFinal.toString());
+            //log.info("ORDENES: " + this.ordenesFinal.toString());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -81,23 +83,46 @@ public class ObtenerOrdenes {
     }
 
     //ALMACENAR ORDENES EN LA BASE DE DATOS
-    public void almacenarOrdenes() {
+    /*    public void almacenarOrdenes() {
+        List<Orden> ordenesAlmacenadas = ordenRepository.findAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         for (Orden ordenes : this.ordenesFinal) {
-            ZonedDateTime fechaOperacion = ordenes.getFechaOperacion();
-            boolean existeOrden = ordenRepository.existsByFechaOperacion(fechaOperacion);
-            if (!existeOrden) {
+            ZonedDateTime fechaConvertidaNueva = ZonedDateTime.of(ordenes.getFechaOperacion().toLocalDateTime(), ZoneId.of("Z"));
+            String NuevafechaEnNuevoFormato = fechaConvertidaNueva.format(formatter);
+            String fechaOperacion = NuevafechaEnNuevoFormato;
+            String  modo = ordenes.getModo();
+            if(!ordenesAlmacenadas.isEmpty()){
+                for (Orden ordenAlmacenada : ordenesAlmacenadas){
+                    ZonedDateTime fechaConvertida = ZonedDateTime.of(ordenAlmacenada.getFechaOperacion().toLocalDateTime(), ZoneId.of("Z"));
+                    String fechaEnNuevoFormato = fechaConvertida.format(formatter);
+                    String fechaOperacionAlmacenado = fechaEnNuevoFormato;
+                    String  modoAlmacenado = ordenAlmacenada.getModo();
+                    if(!fechaOperacion.equals(fechaOperacionAlmacenado) && modo.equals(modoAlmacenado)){
+                        ordenRepository.save(ordenes);
+                    }else{
+                        log.info("Orden omitida (ya existe): " + ordenes.toString());
+                    }
+                }
+            }if(ordenesAlmacenadas.isEmpty()){
                 ordenRepository.save(ordenes);
-                log.info("Orden almacenada: " + ordenes.toString());
-            } else {
-                log.info("Orden omitida (ya existe): " + ordenes.toString());
+            }
+        }
+    }*/
+    public void almacenarOrdenes() {
+        List<Orden> ordenesAlmacenadas = ordenRepository.findAll();
+        for (Orden orden : this.ordenesFinal) {
+            boolean ordenAlmacenada = ordenesAlmacenadas
+                .stream()
+                .anyMatch(ord -> ord.getFechaOperacion().equals(orden.getFechaOperacion()));
+            if (!ordenAlmacenada) {
+                this.ordenRepository.save(orden);
             }
         }
     }
-
-    @Scheduled(fixedRate = 60000)
+    /*    @Scheduled(fixedRate = 60000)
     public void obtenerResultados() {
         log.info("-------Comenzando peticion------");
         this.obtenerOrdenesServicioProfe();
         this.almacenarOrdenes();
-    }
+    }*/
 }

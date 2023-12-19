@@ -90,7 +90,7 @@ public class AnalizarOrdenes {
                 if (acciones != null && acciones.isArray() && acciones.size() > 0) {
                     for (JsonNode accion : acciones) {
                         Integer accionId = accion.get("id").asInt();
-                        if (accionId == accionIdAlmacenada) {
+                        if (accionId.equals(accionIdAlmacenada)) {
                             log.info("Accion encontrada: " + accionId);
                             valido = true;
                         }/*else {
@@ -140,11 +140,11 @@ public class AnalizarOrdenes {
 
                 if (clientes != null && clientes.isArray()) {
                     for (JsonNode cliente : clientes) {
-                        int clienteId = cliente.get("id").asInt();
+                        Integer clienteId = cliente.get("id").asInt();
                         /*log.info("clienteIdAlmacenado: " + clienteIdAlmacenada);
                         log.info("clienteId: " + clienteId);*/
 
-                        if (clienteId == clienteIdAlmacenada) {
+                        if (clienteId.equals(clienteIdAlmacenada)) {
                             log.info("cliente encontrado: " + clienteId);
                             valido = true;
                         }/*else {
@@ -237,7 +237,8 @@ public class AnalizarOrdenes {
                         ordenRepository.save(orden);
                         colaPrincipioDiaService.agregarOrden(orden);
                         log.info("Orden Principio Dia almacenada en la cola: " + orden.toString());
-                    } else {
+                    }
+                    if (modoOrden.equals("FINDIA")) {
                         this.actualizarPrecioOrdenes(orden);
                         ordenRepository.save(orden);
                         colaFinDiaService.agregarOrden(orden);
@@ -304,8 +305,8 @@ public class AnalizarOrdenes {
 
         return valido;
     }
-
-    @Scheduled(fixedRate = 60000)
+}
+/*    @Scheduled(fixedRate = 60000)
     public void analizandoOrdenes() {
         log.info("-------COMENZANDO ANALISIS DE ORDENES-----\n");
         log.info("\n-------ANALIZANDO LA EXISTENCIA DEL CLIENTE-----");
@@ -314,4 +315,4 @@ public class AnalizarOrdenes {
         this.obtenerAccionesServicioProfe();
         this.repartirOrdenesColas();
     }
-}
+}*/

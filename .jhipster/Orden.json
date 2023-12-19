@@ -39,7 +39,7 @@
       "fieldType": "Boolean"
     },
     {
-      "fieldName": "operacionObservacion",
+      "fieldName": "operacionObservaciones",
       "fieldType": "String"
     }
   ],

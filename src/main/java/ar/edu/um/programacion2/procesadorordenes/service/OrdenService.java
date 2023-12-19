@@ -86,8 +86,8 @@ public class OrdenService {
                 if (orden.getOperacionExitosa() != null) {
                     existingOrden.setOperacionExitosa(orden.getOperacionExitosa());
                 }
-                if (orden.getOperacionObservacion() != null) {
-                    existingOrden.setOperacionObservacion(orden.getOperacionObservacion());
+                if (orden.getOperacionObservaciones() != null) {
+                    existingOrden.setOperacionObservaciones(orden.getOperacionObservaciones());
                 }
 
                 return existingOrden;

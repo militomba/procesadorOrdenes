@@ -27,7 +27,7 @@
       "cliente": "Cliente",
       "accion": "Accion",
       "operacionExitosa": "Operacion Exitosa",
-      "operacionObservacion": "Operacion Observacion"
+      "operacionObservaciones": "Operacion Observaciones"
     }
   }
 }

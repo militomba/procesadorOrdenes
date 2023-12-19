@@ -1,4 +1,4 @@
-id;operacion;fecha_operacion;modo;precio;accion_id;cantidad;cliente;accion;operacion_exitosa;operacion_observacion
+id;operacion;fecha_operacion;modo;precio;accion_id;cantidad;cliente;accion;operacion_exitosa;operacion_observaciones
 1;Account;2023-11-14T04:38:07;Tajikistan;16505;70176;76320;97072;deposit;true;Micronesia Grupo
 2;Comunidad nivel Ladrillo;2023-11-14T06:12:15;networks Dinánmico estatica;31411;98549;32215;2289;invoice Bricolaje;true;Coche
 3;Paradigma New Account;2023-11-14T12:03:07;Manat protocol;24090;31676;19684;54509;back-end Distrito;false;Madera Namibia

@@ -1,5 +1,6 @@
 package ar.edu.um.programacion2.procesadorordenes.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
@@ -50,8 +51,8 @@ public class Orden implements Serializable {
     @Column(name = "operacion_exitosa")
     private Boolean operacionExitosa;
 
-    @Column(name = "operacion_observacion")
-    private String operacionObservacion;
+    @Column(name = "operacion_observaciones")
+    private String operacionObservaciones;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -185,17 +186,17 @@ public class Orden implements Serializable {
         this.operacionExitosa = operacionExitosa;
     }
 
-    public String getOperacionObservacion() {
-        return this.operacionObservacion;
+    public String getOperacionObservaciones() {
+        return this.operacionObservaciones;
     }
 
-    public Orden operacionObservacion(String operacionObservacion) {
-        this.setOperacionObservacion(operacionObservacion);
+    public Orden operacionObservaciones(String operacionObservaciones) {
+        this.setOperacionObservaciones(operacionObservaciones);
         return this;
     }
 
-    public void setOperacionObservacion(String operacionObservacion) {
-        this.operacionObservacion = operacionObservacion;
+    public void setOperacionObservaciones(String operacionObservaciones) {
+        this.operacionObservaciones = operacionObservaciones;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -231,7 +232,7 @@ public class Orden implements Serializable {
             ", cliente=" + getCliente() +
             ", accion='" + getAccion() + "'" +
             ", operacionExitosa='" + getOperacionExitosa() + "'" +
-            ", operacionObservacion='" + getOperacionObservacion() + "'" +
+            ", operacionObservaciones='" + getOperacionObservaciones() + "'" +
             "}";
     }
 }
