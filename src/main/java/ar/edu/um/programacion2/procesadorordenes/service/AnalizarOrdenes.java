@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -62,7 +61,7 @@ public class AnalizarOrdenes {
         this.colaOperacionesFallidas = colaOperacionesFallidas;
     }
 
-    public boolean obtenerAccionesServicioProfe() {
+    public boolean obtenerAccionesServicioProfe(int i) {
         boolean valido = false;
         //String url = "http://192.168.194.254:8000";
         String endpoint = "/api/acciones/";
@@ -113,7 +112,7 @@ public class AnalizarOrdenes {
         return valido;
     }
 
-    public boolean obtenerClientesServicioProfe() {
+    public boolean obtenerClientesServicioProfe(int i) {
         boolean valido = false;
         //String url = "http://192.168.194.254:8000";
         String endpoint = "/api/clientes/";
@@ -217,8 +216,8 @@ public class AnalizarOrdenes {
     public String repartirOrdenesColas() {
         try {
             List<Orden> listaOrdenes = ordenRepository.findAll();
-            Boolean obtenerCliente = this.obtenerClientesServicioProfe();
-            Boolean obtenerAcciones = this.obtenerAccionesServicioProfe();
+            Boolean obtenerCliente = this.obtenerClientesServicioProfe(1149);
+            Boolean obtenerAcciones = this.obtenerAccionesServicioProfe(13);
             for (Orden orden : listaOrdenes) {
                 if (obtenerCliente.equals(true) && obtenerAcciones.equals(true)) {
                     String modoOrden = orden.getModo();
