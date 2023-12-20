@@ -1,11 +1,11 @@
-id;operacion;fecha_operacion;modo;precio;accion_id;cantidad;cliente;accion;operacion_exitosa;operacion_observaciones
-1;Account;2023-11-14T04:38:07;Tajikistan;16505;70176;76320;97072;deposit;true;Micronesia Grupo
-2;Comunidad nivel Ladrillo;2023-11-14T06:12:15;networks Dinánmico estatica;31411;98549;32215;2289;invoice Bricolaje;true;Coche
-3;Paradigma New Account;2023-11-14T12:03:07;Manat protocol;24090;31676;19684;54509;back-end Distrito;false;Madera Namibia
-4;División International;2023-11-14T05:06:43;Mancha copying;52800;9735;35372;32473;generating invoice;true;reboot
-5;Japón;2023-11-14T23:23:49;neural;2950;85825;67614;96792;program e-services Seguro;true;input Heredado Public-key
-6;Ngultrum Dinar;2023-11-14T23:15:36;Azul generating overriding;19684;39708;32153;46519;compressing Planificador;false;JBOD Bacon
-7;bypassing action-items Metal;2023-11-14T16:30:22;Hecho redundant;53846;15996;25394;90614;input Marroquinería;false;acompasada Bebes Arrabal
-8;Azul División Patatas;2023-11-14T19:52:18;Card Asistente Clonado;4732;74332;3687;78781;Analista enable;true;Islas
-9;optimize;2023-11-14T08:50:19;Somoni web-enabled Humano;64195;14250;59449;49518;COM;true;users Sopa Guinea-Bisau
-10;reboot;2023-11-14T10:56:56;de;97511;23376;28832;16908;Videojuegos;true;didactica
+id;operacion;fecha_operacion;modo;precio;accion_id;cantidad;cliente;accion;operacion_exitosa;operacion_observaciones;reportada
+1;Account;2023-11-14T04:38:07;Tajikistan;16505;70176;76320;97072;deposit;true;Micronesia Grupo;true
+2;Canarias e-commerce;2023-11-14T04:42:20;feed;81081;90934;89051;22755;estatica website Bricolaje;true;Bricolaje Money política;true
+3;Paradigma New Account;2023-11-14T12:03:07;Manat protocol;24090;31676;19684;54509;back-end Distrito;false;Madera Namibia;false
+4;Camino Dollar Loan;2023-11-14T01:59:01;customized Fantástico invoice;13189;63687;95383;26374;Guapo integrate Avenida;false;back-end SMTP calculating;true
+5;website driver;2023-11-13T23:41:51;drive hack alarm;67330;36245;97686;67967;Jefe Azul;true;SAS Madera;false
+6;Salida Director;2023-11-14T20:20:37;invoice;63586;18134;83219;838;bypassing action-items Metal;false;Hecho redundant;true
+7;Universal;2023-11-14T05:27:47;back Gris acompasada;2235;50199;42334;44588;Tunez;false;División;false
+8;Configurable Card Asistente;2023-11-14T17:58:14;integrate;3687;78781;49164;99747;Camiseta holistic;true;Entrada;false
+9;Account 1080p Bloque;2023-11-14T02:52:05;deposit Avon Asturias;73613;44178;75760;39815;Market;false;Guapo Sorprendente;true
+10;Extendido Teclado didactica;2023-11-14T21:00:02;Ingeniería;8565;3938;16152;25446;deposit Pequeño;true;Parafarmacia Buckinghamshire Valenciana;false

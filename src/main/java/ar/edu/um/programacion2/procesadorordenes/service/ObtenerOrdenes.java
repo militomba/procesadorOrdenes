@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -39,15 +40,21 @@ public class ObtenerOrdenes {
         this.ordenRepository = ordenRepository;
     }
 
+    @Value("${procesador_ordenes.token}")
+    protected String token;
+
+    @Value("${procesador_ordenes.url}")
+    protected String url;
+
     //Obtener ordenes del servicio del profe
 
     public CompletableFuture<List<Orden>> obtenerOrdenesServicioProfe() {
         CompletableFuture<List<Orden>> resultFuture = new CompletableFuture<>();
-        String url = "http://192.168.194.254:8000";
+        //String url = "http://192.168.194.254:8000";
         String endpoint = "/api/ordenes/ordenes";
-        String token =
+        /*String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";
-
+*/
         WebClient webClient = WebClient
             .builder()
             .baseUrl(url)
@@ -70,6 +77,7 @@ public class ObtenerOrdenes {
                 Orden nuevaOrden = ordenMapper.treeToValue(resultadoOrden, Orden.class);
                 nuevaOrden.operacionExitosa(false);
                 nuevaOrden.operacionObservaciones("");
+                nuevaOrden.reportada(false);
                 log.info("-----RESULTADO ORDENES------" + resultadoOrden);
                 this.ordenesFinal.add(nuevaOrden);
             }
@@ -83,32 +91,29 @@ public class ObtenerOrdenes {
     }
 
     //ALMACENAR ORDENES EN LA BASE DE DATOS
-    /*    public void almacenarOrdenes() {
+    public void almacenarOrdenes() {
         List<Orden> ordenesAlmacenadas = ordenRepository.findAll();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
         for (Orden ordenes : this.ordenesFinal) {
-            ZonedDateTime fechaConvertidaNueva = ZonedDateTime.of(ordenes.getFechaOperacion().toLocalDateTime(), ZoneId.of("Z"));
-            String NuevafechaEnNuevoFormato = fechaConvertidaNueva.format(formatter);
-            String fechaOperacion = NuevafechaEnNuevoFormato;
-            String  modo = ordenes.getModo();
-            if(!ordenesAlmacenadas.isEmpty()){
+            ZonedDateTime fechaOperacion = ordenes.getFechaOperacion();
+            String modo = ordenes.getModo();
+            /*            if(!ordenesAlmacenadas.isEmpty()){
                 for (Orden ordenAlmacenada : ordenesAlmacenadas){
-                    ZonedDateTime fechaConvertida = ZonedDateTime.of(ordenAlmacenada.getFechaOperacion().toLocalDateTime(), ZoneId.of("Z"));
-                    String fechaEnNuevoFormato = fechaConvertida.format(formatter);
-                    String fechaOperacionAlmacenado = fechaEnNuevoFormato;
+                    ZonedDateTime fechaOperacionAlmacenado= ordenAlmacenada.getFechaOperacion();
                     String  modoAlmacenado = ordenAlmacenada.getModo();
                     if(!fechaOperacion.equals(fechaOperacionAlmacenado) && modo.equals(modoAlmacenado)){
                         ordenRepository.save(ordenes);
                     }else{
                         log.info("Orden omitida (ya existe): " + ordenes.toString());
                     }
-                }
-            }if(ordenesAlmacenadas.isEmpty()){
+                }*/
+            if (ordenesAlmacenadas.isEmpty()) {
                 ordenRepository.save(ordenes);
             }
         }
-    }*/
-    public void almacenarOrdenes() {
+    }
+}
+/*    public void almacenarOrdenes() {
         List<Orden> ordenesAlmacenadas = ordenRepository.findAll();
         for (Orden orden : this.ordenesFinal) {
             boolean ordenAlmacenada = ordenesAlmacenadas
@@ -118,11 +123,10 @@ public class ObtenerOrdenes {
                 this.ordenRepository.save(orden);
             }
         }
-    }
-    /*    @Scheduled(fixedRate = 60000)
+    }*/
+/*    @Scheduled(fixedRate = 60000)
     public void obtenerResultados() {
         log.info("-------Comenzando peticion------");
         this.obtenerOrdenesServicioProfe();
         this.almacenarOrdenes();
     }*/
-}

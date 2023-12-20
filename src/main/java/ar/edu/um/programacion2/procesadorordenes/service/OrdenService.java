@@ -89,6 +89,9 @@ public class OrdenService {
                 if (orden.getOperacionObservaciones() != null) {
                     existingOrden.setOperacionObservaciones(orden.getOperacionObservaciones());
                 }
+                if (orden.getReportada() != null) {
+                    existingOrden.setReportada(orden.getReportada());
+                }
 
                 return existingOrden;
             })

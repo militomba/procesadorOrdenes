@@ -12,8 +12,10 @@ export interface IOrden {
   accion?: string | null;
   operacionExitosa?: boolean | null;
   operacionObservaciones?: string | null;
+  reportada?: boolean | null;
 }
 
 export const defaultValue: Readonly<IOrden> = {
   operacionExitosa: false,
+  reportada: false,
 };

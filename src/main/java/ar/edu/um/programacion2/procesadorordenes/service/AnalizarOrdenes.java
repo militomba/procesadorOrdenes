@@ -15,6 +15,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -40,6 +41,12 @@ public class AnalizarOrdenes {
     @Autowired
     private final ColaOperacionesFallidas colaOperacionesFallidas;
 
+    @Value("${procesador_ordenes.token}")
+    protected String token;
+
+    @Value("${procesador_ordenes.url}")
+    protected String url;
+
     @Autowired
     public AnalizarOrdenes(
         OrdenRepository ordenRepository,
@@ -57,10 +64,10 @@ public class AnalizarOrdenes {
 
     public boolean obtenerAccionesServicioProfe() {
         boolean valido = false;
-        String url = "http://192.168.194.254:8000";
+        //String url = "http://192.168.194.254:8000";
         String endpoint = "/api/acciones/";
-        String token =
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";
+        /*  String token =
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";*/
 
         WebClient webClient = WebClient
             .builder()
@@ -108,11 +115,11 @@ public class AnalizarOrdenes {
 
     public boolean obtenerClientesServicioProfe() {
         boolean valido = false;
-        String url = "http://192.168.194.254:8000";
+        //String url = "http://192.168.194.254:8000";
         String endpoint = "/api/clientes/";
-        String token =
+        /* String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";
-
+*/
         WebClient webClient = WebClient
             .builder()
             .baseUrl(url)
@@ -163,11 +170,11 @@ public class AnalizarOrdenes {
     public Orden actualizarPrecioOrdenes(Orden orden) {
         List<Orden> ordenesAlmacenadas = ordenRepository.findAll();
 
-        String url = "http://192.168.194.254:8000";
+        /*String url = "http://192.168.194.254:8000";*/
         String endpoint = "/api/acciones/ultimovalor/" + orden.getAccion();
-        String token =
+        /* String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";
-
+*/
         WebClient webClient = WebClient
             .builder()
             .baseUrl(url)
@@ -233,14 +240,14 @@ public class AnalizarOrdenes {
                         }
                     }
                     if (modoOrden.equals("PRINCIPIODIA")) {
-                        this.actualizarPrecioOrdenes(orden);
-                        ordenRepository.save(orden);
+                        /*this.actualizarPrecioOrdenes(orden);
+                        ordenRepository.save(orden);*/
                         colaPrincipioDiaService.agregarOrden(orden);
                         log.info("Orden Principio Dia almacenada en la cola: " + orden.toString());
                     }
                     if (modoOrden.equals("FINDIA")) {
-                        this.actualizarPrecioOrdenes(orden);
-                        ordenRepository.save(orden);
+                        /*this.actualizarPrecioOrdenes(orden);
+                        ordenRepository.save(orden);*/
                         colaFinDiaService.agregarOrden(orden);
                         log.info("Orden Fin Dia almacenada en la cola: " + orden.toString());
                     }
@@ -257,12 +264,12 @@ public class AnalizarOrdenes {
 
     public boolean consultarCantidadAcciones(Orden orden) {
         boolean valido = false;
-        String url = "http://192.168.194.254:8000";
+        /*String url = "http://192.168.194.254:8000";*/
         String endpoint =
             "/api/reporte-operaciones/consulta_cliente_accion?clienteId=" + orden.getCliente() + "&accionId=" + orden.getAccionId();
-        String token =
+        /* String token =
             "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWxpdG9tYmExIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTcyOTE3OTQwOH0.JFOOJCd7_DuIAyIDgf6DGYiaWUMGAz465guJQMaIwyCUQJyWnkUJrpC6vrxP--g_j1pJAfYD21DuXXhcyAlRYQ";
-
+*/
         WebClient webClient = WebClient
             .builder()
             .baseUrl(url)
@@ -294,9 +301,11 @@ public class AnalizarOrdenes {
 
             if (resultado <= cantidadActual) {
                 log.info("¡Operacion exitosa!");
+                orden.setOperacionObservaciones("hay acciones por vender");
                 valido = true;
             } else {
                 log.info("La cantidad de ordenes es mayor a la cantidad actual. !Operacion fallida¡");
+                orden.setOperacionObservaciones("No hay esa canridad de aaciones para vender");
                 valido = false;
             }
         } catch (JsonProcessingException e) {

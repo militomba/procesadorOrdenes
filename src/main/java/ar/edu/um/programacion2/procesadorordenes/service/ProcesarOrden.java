@@ -100,12 +100,16 @@ public class ProcesarOrden {
         while (!colaFinDia.isEmpty()) {
             Orden orden = colaFinDia.poll();
             if (orden.getOperacion().equals("COMPRA")) {
+                analizarOrdenes.actualizarPrecioOrdenes(orden);
+                ordenRepository.save(orden);
                 comprar(orden);
                 //log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
                 listaOrdenesExitosas.add(orden);
             } else {
                 boolean venta = vender(orden);
                 if (venta == true) {
+                    analizarOrdenes.actualizarPrecioOrdenes(orden);
+                    ordenRepository.save(orden);
                     listaOrdenesExitosas.add(orden);
                 }
             }
@@ -124,6 +128,8 @@ public class ProcesarOrden {
         while (!colaPrincDia.isEmpty()) {
             Orden orden = colaPrincDia.poll();
             if (orden.getOperacion().equals("COMPRA")) {
+                analizarOrdenes.actualizarPrecioOrdenes(orden);
+                ordenRepository.save(orden);
                 comprar(orden);
                 //log.info("COMPRA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
                 listaOrdenesExitosas.add(orden);
@@ -131,6 +137,8 @@ public class ProcesarOrden {
                 vender(orden);
                 boolean venta = vender(orden);
                 if (venta == true) {
+                    analizarOrdenes.actualizarPrecioOrdenes(orden);
+                    ordenRepository.save(orden);
                     listaOrdenesExitosas.add(orden);
                 }
             }
