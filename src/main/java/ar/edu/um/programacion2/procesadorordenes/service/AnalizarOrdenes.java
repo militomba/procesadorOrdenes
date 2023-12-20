@@ -226,7 +226,7 @@ public class AnalizarOrdenes {
                     if (modoOrden.equals("AHORA")) {
                         log.info("-----ANALIZANDO HORARIO DE ORDENES INMEDIATAS-----");
                         ZonedDateTime horaOperacion = orden.getFechaOperacion();
-                        ZoneId zonaHoraria = ZoneId.of("UTC-3");
+                        ZoneId zonaHoraria = ZoneId.of("UTC");
                         LocalTime horaOperacionLocal = horaOperacion.withZoneSameInstant(zonaHoraria).toLocalTime();
                         LocalTime horaInicio = LocalTime.of(8, 59);
                         LocalTime horaFinal = LocalTime.of(18, 1);
@@ -236,7 +236,8 @@ public class AnalizarOrdenes {
                             //log.info();("El horario de la orden se encuentra dentro de las 9:00 am - 18:00pm");
                         } else {
                             colaOperacionesFallidas.agregarOrden(orden);
-                            log.info("No se alamcenp la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm");
+                            log.info(orden.toString());
+                            log.info("No se almaceno la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm");
                         }
                     }
                     if (modoOrden.equals("PRINCIPIODIA")) {
@@ -252,8 +253,10 @@ public class AnalizarOrdenes {
                         log.info("Orden Fin Dia almacenada en la cola: " + orden.toString());
                     }
                 } else {
+                    orden.setOperacionObservaciones("Cliente o accion inexistente");
+                    ordenRepository.save(orden);
                     colaOperacionesFallidas.agregarOrden(orden);
-                    log.info("Orden fallida almacenada " + orden.toString());
+                    log.info("La orden no se pudo almacenar. Cliente o accion inexistente: " + orden.toString());
                 }
             }
         } catch (Exception e) {
@@ -305,7 +308,7 @@ public class AnalizarOrdenes {
                 valido = true;
             } else {
                 log.info("La cantidad de ordenes es mayor a la cantidad actual. !Operacion fallida¡");
-                orden.setOperacionObservaciones("No hay esa canridad de aaciones para vender");
+                orden.setOperacionObservaciones("No hay esa cantidad de acciones para vender");
                 valido = false;
             }
         } catch (JsonProcessingException e) {

@@ -12,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -90,6 +91,7 @@ public class ReporteOrdenes {
 
             // Enviar la solicitud y manejar la respuesta
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
             if (response.statusCode() == 200) {
                 log.info("Órdenes enviadas con éxito. Respuesta: " + response.body());
                 for (Orden orden : ordenes) {
@@ -98,7 +100,7 @@ public class ReporteOrdenes {
                     ordenesReportadas.add(orden);
                 }
             } else {
-                log.info("Error al enviar órdenes. Código de respuesta: " + response.statusCode());
+                log.info("Error al enviar órdenes. Código de respuesta: " + response.body());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,20 +114,27 @@ public class ReporteOrdenes {
         return listOrdenesReportadas;
     }
 
-    public List<Orden> getReporteAccionId(int accionId) {
+    public List<Orden> getReporteAccionId(Integer accionId) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndAccionId(true, accionId);
         log.info("ORDENES REPORTADAS POR ACCION ID: " + accionId + " " + listOrdenesReportadas.toString());
         return listOrdenesReportadas;
     }
 
-    public List<Orden> getReporteClienteIdAccion(int clienteId, int accionId) {
+    public List<Orden> getReporteClienteIdAccion(int clienteId, Integer accionId) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndClienteAndAccionId(true, clienteId, accionId);
         log.info("ORDENES REPORTADAS POR El CLIENTE: " + clienteId + " Y LA ACCION:  " + accionId + " " + listOrdenesReportadas.toString());
         return listOrdenesReportadas;
     }
 
-    public void getReporteFechaOperacion(Instant inicioDia, Instant finDia) {
-        List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndFechaOperacionBetween(true, inicioDia, finDia);
-        log.info("ORDENES REPORTADAS POR FECHA ENTRE: " + inicioDia + " - " + finDia);
+    public List<Orden> getReporteFechaOperacion(ZonedDateTime fechaInicio, ZonedDateTime fechaFin) {
+        List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndFechaOperacionBetween(true, fechaInicio, fechaFin);
+        log.info("ORDENES REPORTADAS POR FECHA ENTRE: " + fechaInicio + " - " + fechaFin);
+        return listOrdenesReportadas;
+    }
+
+    public List<Orden> getReporteAccion(String accion) {
+        List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndAccion(true, accion);
+        log.info("ORDENES REPORTADAS POR ACCION: " + accion + " " + listOrdenesReportadas.toString());
+        return listOrdenesReportadas;
     }
 }

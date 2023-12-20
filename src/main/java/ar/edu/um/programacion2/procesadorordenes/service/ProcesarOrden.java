@@ -57,13 +57,13 @@ public class ProcesarOrden {
         boolean valido = false;
         if (analizarOrdenes.consultarCantidadAcciones(orden) == true) {
             orden.setOperacionExitosa(true);
-            orden.setOperacionObservaciones("Compra realizada con exito");
+            //orden.setOperacionObservaciones("Compra realizada con exito");
             log.info("VENTA REALIZADA CON EXITO\n ORDEN: " + orden.toString());
             ordenRepository.save(orden);
             valido = true;
         } else {
             orden.setOperacionExitosa(false);
-            orden.setOperacionObservaciones("No se puede realizar la compra");
+            //orden.setOperacionObservaciones("No se puede realizar la compra");
             ordenRepository.save(orden);
             colaOperacionesFallidas.agregarOrden(orden);
             log.info("NO SE PUDO REALIZAR LA VENTA\n ORDEN: " + orden.toString());
@@ -161,29 +161,7 @@ public class ProcesarOrden {
             listaOrdenesFallidas.add(orden);
         }
         reporteOrdenes.enviarOrdenes(listaOrdenesFallidas);
+        listaOrdenesFallidas.clear();
         return true;
     }
-    /*
-    public boolean eliminarID(){
-        log.info(listaOrdenesExitosas.toString());
-        if(!listaOrdenesExitosas.isEmpty()){
-            for(Orden ordenes : listaOrdenesExitosas) {
-                listaOrdenesExitosas.remove(ordenes.getId());
-            }
-            reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
-        }else{
-            log.info("No hay ordenes almacenadas");
-        }
-        log.info(listaOrdenesExitosas.toString());
-        return true;
-    }*/
-
-    /*    @Scheduled(fixedRate = 60000)
-    public void procesarOrden() {
-        log.info("--------------------------------\nPROCESANDO ORDENES\n--------------------------------");
-        this.procesarOrdenesFinDia();
-        this.procesarOrdenesInmediatas();
-        this.procesarOrdenesPrincDia();
-        this.reportarOrdenesFallidas();
-    }*/
 }
