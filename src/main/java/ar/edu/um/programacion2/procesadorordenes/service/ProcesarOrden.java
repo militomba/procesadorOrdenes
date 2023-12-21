@@ -9,7 +9,6 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -91,7 +90,7 @@ public class ProcesarOrden {
             reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
             listaOrdenesExitosas.clear();
         }
-        log.info("COLA DE ORDENES INMEDIATAS VACIA");
+        //log.info("COLA DE ORDENES INMEDIATAS VACIA");
         return true;
     }
 
@@ -118,7 +117,7 @@ public class ProcesarOrden {
             reporteOrdenes.enviarOrdenes(listaOrdenesExitosas);
             listaOrdenesExitosas.clear();
         }
-        log.info("COLA DE ORDENES FIN DIA VACIA");
+        //log.info("COLA DE ORDENES FIN DIA VACIA");
         return true;
     }
 
@@ -148,7 +147,7 @@ public class ProcesarOrden {
             listaOrdenesExitosas.clear();
         }
 
-        log.info("COLA DE ORDENES PRINCIPIO DIA VACIA");
+        //log.info("COLA DE ORDENES PRINCIPIO DIA VACIA");
         return true;
     }
 

@@ -1,12 +1,9 @@
 package ar.edu.um.programacion2.procesadorordenes.repository;
 
 import ar.edu.um.programacion2.procesadorordenes.domain.Orden;
-import com.google.inject.spi.StaticInjectionRequest;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +19,5 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
     List<Orden> findByReportadaAndAccion(Boolean reportada, String accion);
 
     List<Orden> findByReportadaAndFechaOperacionBetween(Boolean reportada, ZonedDateTime fechaInicio, ZonedDateTime fechaFin);
+    List<Orden> findByReportadaAndOperacionExitosa(Boolean reportada, Boolean operacion);
 }

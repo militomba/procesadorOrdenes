@@ -11,8 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -110,31 +108,30 @@ public class ReporteOrdenes {
     // reportes por cliente-accion-fecha
     public List<Orden> getReporteClienteId(int id) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndCliente(true, id);
-        log.info("ORDENES REPORTADAS POR El CLIENTE: " + id + " " + listOrdenesReportadas.toString());
+        //log.info("ORDENES REPORTADAS POR El CLIENTE: " + id + " " + listOrdenesReportadas.toString());
         return listOrdenesReportadas;
     }
 
     public List<Orden> getReporteAccionId(Integer accionId) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndAccionId(true, accionId);
-        log.info("ORDENES REPORTADAS POR ACCION ID: " + accionId + " " + listOrdenesReportadas.toString());
-        return listOrdenesReportadas;
-    }
-
-    public List<Orden> getReporteClienteIdAccion(int clienteId, Integer accionId) {
-        List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndClienteAndAccionId(true, clienteId, accionId);
-        log.info("ORDENES REPORTADAS POR El CLIENTE: " + clienteId + " Y LA ACCION:  " + accionId + " " + listOrdenesReportadas.toString());
+        //log.info("ORDENES REPORTADAS POR ACCION ID: " + accionId + " " + listOrdenesReportadas.toString());
         return listOrdenesReportadas;
     }
 
     public List<Orden> getReporteFechaOperacion(ZonedDateTime fechaInicio, ZonedDateTime fechaFin) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndFechaOperacionBetween(true, fechaInicio, fechaFin);
-        log.info("ORDENES REPORTADAS POR FECHA ENTRE: " + fechaInicio + " - " + fechaFin);
+        //log.info("ORDENES REPORTADAS POR FECHA ENTRE: " + fechaInicio + " - " + fechaFin);
         return listOrdenesReportadas;
     }
 
     public List<Orden> getReporteAccion(String accion) {
         List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndAccion(true, accion);
-        log.info("ORDENES REPORTADAS POR ACCION: " + accion + " " + listOrdenesReportadas.toString());
+        //log.info("ORDENES REPORTADAS POR ACCION: " + accion + " " + listOrdenesReportadas.toString());
+        return listOrdenesReportadas;
+    }
+
+    public List<Orden> getoperacionFalse(boolean operacion) {
+        List<Orden> listOrdenesReportadas = ordenRepository.findByReportadaAndOperacionExitosa(true, operacion);
         return listOrdenesReportadas;
     }
 }

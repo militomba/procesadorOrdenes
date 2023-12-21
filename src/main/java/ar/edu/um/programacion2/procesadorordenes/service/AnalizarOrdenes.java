@@ -97,7 +97,7 @@ public class AnalizarOrdenes {
                     for (JsonNode accion : acciones) {
                         Integer accionId = accion.get("id").asInt();
                         if (accionId.equals(accionIdAlmacenada)) {
-                            log.info("Accion encontrada: " + accionId);
+                            log.info("Accion " + accionId + " encontrada");
                             valido = true;
                         }/*else {
                             log.info("No se encontro la accion: " + accionId);
@@ -147,11 +147,9 @@ public class AnalizarOrdenes {
                 if (clientes != null && clientes.isArray()) {
                     for (JsonNode cliente : clientes) {
                         Integer clienteId = cliente.get("id").asInt();
-                        /*log.info("clienteIdAlmacenado: " + clienteIdAlmacenada);
-                        log.info("clienteId: " + clienteId);*/
 
                         if (clienteId.equals(clienteIdAlmacenada)) {
-                            log.info("cliente encontrado: " + clienteId);
+                            log.info("Cliente " + clienteId + " encontrado");
                             valido = true;
                         }/*else {
                             log.info("No se encontro el cliente " + clienteId);
@@ -223,7 +221,7 @@ public class AnalizarOrdenes {
                     String modoOrden = orden.getModo();
 
                     if (modoOrden.equals("AHORA")) {
-                        log.info("-----ANALIZANDO HORARIO DE ORDENES INMEDIATAS-----");
+                        //log.info("-----ANALIZANDO HORARIO DE ORDENES INMEDIATAS-----");
                         ZonedDateTime horaOperacion = orden.getFechaOperacion();
                         ZoneId zonaHoraria = ZoneId.of("UTC");
                         LocalTime horaOperacionLocal = horaOperacion.withZoneSameInstant(zonaHoraria).toLocalTime();
@@ -231,25 +229,29 @@ public class AnalizarOrdenes {
                         LocalTime horaFinal = LocalTime.of(18, 1);
                         if (horaOperacionLocal.isAfter(horaInicio) && horaOperacionLocal.isBefore(horaFinal)) {
                             colaInmediatoService.agregarOrden(orden);
-                            log.info("Orden Inmediata almacenada en la cola: " + orden.toString());
+                            log.info("Orden INMEDIATA almacenada en la cola: " + orden.toString());
                             //log.info();("El horario de la orden se encuentra dentro de las 9:00 am - 18:00pm");
                         } else {
+                            orden.setOperacionObservaciones("fuera de horario");
+                            ordenRepository.save(orden);
                             colaOperacionesFallidas.agregarOrden(orden);
-                            log.info(orden.toString());
-                            log.info("No se almaceno la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm");
+                            log.info(
+                                orden.toString() +
+                                "\nNo se almaceno la orden porque el horario de la orden se encuentra fuera de las 9:00 am - 18:00pm"
+                            );
                         }
                     }
                     if (modoOrden.equals("PRINCIPIODIA")) {
                         /*this.actualizarPrecioOrdenes(orden);
                         ordenRepository.save(orden);*/
                         colaPrincipioDiaService.agregarOrden(orden);
-                        log.info("Orden Principio Dia almacenada en la cola: " + orden.toString());
+                        log.info("Orden PRINCIPIO DIA almacenada en la cola: " + orden.toString());
                     }
                     if (modoOrden.equals("FINDIA")) {
                         /*this.actualizarPrecioOrdenes(orden);
                         ordenRepository.save(orden);*/
                         colaFinDiaService.agregarOrden(orden);
-                        log.info("Orden Fin Dia almacenada en la cola: " + orden.toString());
+                        log.info("Orden FIN DIA almacenada en la cola: " + orden.toString());
                     }
                 } else {
                     orden.setOperacionObservaciones("Cliente o accion inexistente");
@@ -303,7 +305,7 @@ public class AnalizarOrdenes {
 
             if (resultado <= cantidadActual) {
                 log.info("¡Operacion exitosa!");
-                orden.setOperacionObservaciones("hay acciones por vender");
+                orden.setOperacionObservaciones("Venta ok. Hay acciones por vender");
                 valido = true;
             } else {
                 log.info("La cantidad de ordenes es mayor a la cantidad actual. !Operacion fallida¡");

@@ -4,7 +4,6 @@ import ar.edu.um.programacion2.procesadorordenes.ProcesadorOrdenesApp;
 import ar.edu.um.programacion2.procesadorordenes.domain.Orden;
 import ar.edu.um.programacion2.procesadorordenes.repository.OrdenRepository;
 import java.util.List;
-import jdk.dynalink.linker.LinkerServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class Main {
             if (reporte.equals(true)) {
                 reporteOrdenes.getReporteAccionId(accionId);
                 reporteOrdenes.getReporteClienteId(cliente);
-                reporteOrdenes.getReporteClienteIdAccion(cliente, accionId);
+                //reporteOrdenes.getReporteClienteIdAccion(cliente, accionId);
             }
         }
     }

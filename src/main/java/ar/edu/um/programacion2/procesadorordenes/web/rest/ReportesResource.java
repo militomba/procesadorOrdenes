@@ -57,4 +57,9 @@ public class ReportesResource {
         accion = accion.toUpperCase();
         return reporteOrdenes.getReporteAccion(accion);
     }
+
+    @GetMapping("/operacion/{operacion}")
+    public List<Orden> filtrarPorOperacion(@PathVariable boolean operacion) {
+        return reporteOrdenes.getoperacionFalse(operacion);
+    }
 }
